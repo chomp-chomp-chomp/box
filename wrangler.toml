@@ -9,7 +9,7 @@ bindings = [
 
 [[migrations]]
 tag = "v1"
-new_classes = ["RecipeRoom"]
+new_sqlite_classes = ["RecipeRoom"]
 
 [[d1_databases]]
 binding = "DB"
