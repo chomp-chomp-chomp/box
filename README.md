@@ -129,7 +129,7 @@ npm run db:migrate
 ### 3. Set Admin Token Secret
 
 ```bash
-wrangler secret put ADMIN_TOKEN
+wrangler secret put ADMIN_TOKEN --env production
 ```
 
 Enter a secure random token when prompted.
@@ -139,6 +139,8 @@ Enter a secure random token when prompted.
 ```bash
 npm run deploy:api
 ```
+
+This deploys to the production environment with `ENVIRONMENT=production`.
 
 ### 5. Deploy Frontend to Cloudflare Pages
 
