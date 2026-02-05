@@ -76,6 +76,12 @@ function verifyAdmin(request: Request, env: Env): boolean {
     return false;
   }
   const token = authHeader.slice(7);
+  
+  // In development mode without ADMIN_TOKEN configured, accept any non-empty token
+  if (env.ENVIRONMENT === 'development' && !env.ADMIN_TOKEN) {
+    return token.length > 0;
+  }
+  
   return token === env.ADMIN_TOKEN;
 }
 
