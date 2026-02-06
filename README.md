@@ -156,7 +156,8 @@ Option B: Via Cloudflare Dashboard
 2. Create a project connected to your Git repository
 3. Set build command: `cd app && npm install && npm run build`
 4. Set output directory: `app/dist`
-5. Add environment variable if needed: `VITE_API_BASE_URL=https://your-worker.workers.dev`
+5. Add environment variable: `VITE_API_BASE_URL=https://your-worker.workers.dev` (required when `/api/*` is not routed to the Worker).
+   - If deploying via GitHub Actions, set this in **Repository Variables** (`vars.VITE_API_BASE_URL`) or **Secrets** (`secrets.VITE_API_BASE_URL`).
 
 ### 6. Configure Routing (Optional)
 

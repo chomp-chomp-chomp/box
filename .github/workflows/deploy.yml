@@ -46,7 +46,18 @@ jobs:
           npm install
           cd app && npm install
 
+      - name: Validate API base URL is configured
+        env:
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL != '' && vars.VITE_API_BASE_URL || secrets.VITE_API_BASE_URL }}
+        run: |
+          if [ -z "$VITE_API_BASE_URL" ]; then
+            echo "VITE_API_BASE_URL is required for production build (prevents /api requests going to Pages and returning 405)."
+            exit 1
+          fi
+
       - name: Build frontend
+        env:
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL != '' && vars.VITE_API_BASE_URL || secrets.VITE_API_BASE_URL }}
         run: npm run build
 
       - name: Deploy to Cloudflare Pages
