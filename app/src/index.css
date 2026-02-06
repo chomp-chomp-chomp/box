@@ -319,10 +319,13 @@ button.small {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .message {
-  max-width: 80%;
+  max-width: 75%;
   padding: 0.75rem 1rem;
   border-radius: var(--radius);
   background: var(--bg-secondary);
@@ -379,6 +382,8 @@ button.small {
 .message-input-form {
   display: flex;
   gap: 0.5rem;
+  max-width: 720px;
+  margin: 0 auto;
 }
 
 .message-input-form input {
