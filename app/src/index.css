@@ -1,15 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
 :root {
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #2a2a2a;
-  --bg-input: #333;
-  --text-primary: #e0e0e0;
-  --text-secondary: #888;
-  --text-muted: #666;
-  --accent: #7a9e7e;
-  --accent-hover: #8fb893;
-  --border: #444;
-  --error: #c47070;
-  --success: #7a9e7e;
+  --bg-primary: #fdfdfd;
+  --bg-secondary: #f5f5f5;
+  --bg-input: #ffffff;
+  --text-primary: #353535;
+  --text-secondary: #7d7d7d;
+  --text-muted: #9d9d9d;
+  --accent: #e73b42;
+  --accent-hover: #d12d34;
+  --border: #e0e0e0;
+  --error: #c0392b;
+  --success: #5a8a5e;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --radius: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #231f1f;
+    --bg-secondary: #2b2626;
+    --bg-input: #2b2626;
+    --text-primary: #d9d4d4;
+    --text-secondary: #b9b4b4;
+    --text-muted: #948f8f;
+    --accent: #ff6b7a;
+    --accent-hover: #ff8590;
+    --border: #3b3636;
+    --error: #ff6b6b;
+    --success: #7a9e7e;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
 }
 
 * {
@@ -23,10 +46,10 @@ html, body {
 }
 
 body {
-  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Consolas', monospace;
+  font-family: 'Inter', 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  line-height: 1.6;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -46,14 +69,21 @@ input {
   border: 1px solid var(--border);
   color: var(--text-primary);
   padding: 0.75rem 1rem;
-  border-radius: 4px;
+  border-radius: var(--radius);
   width: 100%;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 input:focus {
   outline: none;
   border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(231, 59, 66, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  input:focus {
+    box-shadow: 0 0 0 3px rgba(255, 107, 122, 0.15);
+  }
 }
 
 input::placeholder {
@@ -62,17 +92,21 @@ input::placeholder {
 
 button {
   background: var(--accent);
-  color: var(--bg-primary);
+  color: #fff;
   border: none;
   padding: 0.75rem 1.5rem;
-  border-radius: 4px;
+  border-radius: var(--radius);
   cursor: pointer;
   font-weight: 500;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, transform 0.2s;
 }
 
 button:hover:not(:disabled) {
   background: var(--accent-hover);
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.98);
 }
 
 button:disabled {
@@ -89,6 +123,7 @@ button.secondary {
 button.secondary:hover:not(:disabled) {
   background: var(--bg-secondary);
   color: var(--text-primary);
+  border-color: var(--text-muted);
 }
 
 button.small {
@@ -119,7 +154,7 @@ button.small {
 }
 
 .home-content {
-  max-width: 400px;
+  max-width: 420px;
   width: 100%;
 }
 
@@ -139,9 +174,10 @@ button.small {
 
 .home-form label {
   display: block;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   margin-bottom: 0.25rem;
   font-size: 0.85rem;
+  font-weight: 500;
 }
 
 .home-warning {
@@ -170,55 +206,62 @@ button.small {
   padding: 1rem 1.5rem;
   border-bottom: 1px solid var(--border);
   background: var(--bg-secondary);
+  box-shadow: var(--shadow-sm);
 }
 
 .room-title {
   font-size: 1.1rem;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 0.25rem;
+  color: var(--text-primary);
 }
 
 .room-code {
   font-size: 0.75rem;
   color: var(--text-muted);
-  font-family: monospace;
+  letter-spacing: 0.3px;
 }
 
 .messages-container {
   flex: 1;
   overflow-y: auto;
-  padding: 1rem;
+  padding: 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
 .message {
-  max-width: 85%;
+  max-width: 80%;
   padding: 0.75rem 1rem;
-  border-radius: 8px;
+  border-radius: var(--radius);
   background: var(--bg-secondary);
+  border: 1px solid var(--border);
   word-break: break-word;
+  transition: box-shadow 0.2s;
 }
 
 .message.own {
   align-self: flex-end;
   background: var(--accent);
-  color: var(--bg-primary);
+  border-color: var(--accent);
+  color: #fff;
 }
 
 .message-sender {
   font-size: 0.75rem;
   color: var(--text-muted);
   margin-bottom: 0.25rem;
+  font-weight: 500;
 }
 
 .message.own .message-sender {
-  color: var(--bg-secondary);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .message-text {
   font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 .message-time {
@@ -229,7 +272,7 @@ button.small {
 }
 
 .message.own .message-time {
-  color: var(--bg-secondary);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .message-error {
@@ -256,25 +299,29 @@ button.small {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
   z-index: 100;
+  backdrop-filter: blur(4px);
 }
 
 .modal {
   background: var(--bg-secondary);
   padding: 2rem;
-  border-radius: 8px;
+  border-radius: var(--radius);
   max-width: 400px;
   width: 100%;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
 }
 
 .modal h2 {
   margin-bottom: 1rem;
   font-size: 1.1rem;
+  font-weight: 600;
 }
 
 .modal p {
@@ -299,6 +346,7 @@ button.small {
 
 .admin h1 {
   font-size: 1.3rem;
+  font-weight: 600;
   margin-bottom: 2rem;
 }
 
@@ -314,6 +362,7 @@ button.small {
 
 .admin-section h2 {
   font-size: 1rem;
+  font-weight: 600;
   margin-bottom: 1rem;
   color: var(--text-secondary);
 }
@@ -326,23 +375,26 @@ button.small {
 
 .admin-form label {
   display: block;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   margin-bottom: 0.25rem;
   font-size: 0.85rem;
+  font-weight: 500;
 }
 
 /* Invite kit */
 .invite-kit {
   background: var(--bg-secondary);
   padding: 1.5rem;
-  border-radius: 8px;
+  border-radius: var(--radius);
   margin-top: 1.5rem;
+  border: 1px solid var(--border);
 }
 
 .invite-kit h3 {
   font-size: 1rem;
   margin-bottom: 1rem;
-  color: var(--success);
+  color: var(--accent);
+  font-weight: 600;
 }
 
 .invite-kit-item {
@@ -357,6 +409,9 @@ button.small {
   font-size: 0.8rem;
   color: var(--text-muted);
   margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
 }
 
 .invite-kit-value {
@@ -365,10 +420,10 @@ button.small {
   gap: 0.5rem;
   background: var(--bg-primary);
   padding: 0.75rem;
-  border-radius: 4px;
-  font-family: monospace;
+  border-radius: var(--radius);
   font-size: 0.9rem;
   word-break: break-all;
+  border: 1px solid var(--border);
 }
 
 .invite-kit-value code {
@@ -386,8 +441,9 @@ button.small {
 .connection-status {
   font-size: 0.75rem;
   padding: 0.25rem 0.5rem;
-  border-radius: 4px;
+  border-radius: var(--radius);
   margin-left: auto;
+  font-weight: 500;
 }
 
 .connection-status.connected {
@@ -404,14 +460,15 @@ button.small {
 
 /* Nav */
 .nav-link {
-  color: var(--text-muted);
+  color: var(--accent);
   text-decoration: none;
   font-size: 0.85rem;
+  font-weight: 500;
   transition: color 0.2s;
 }
 
 .nav-link:hover {
-  color: var(--text-primary);
+  color: var(--accent-hover);
 }
 
 /* Responsive */

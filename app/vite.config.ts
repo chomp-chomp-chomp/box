@@ -12,8 +12,8 @@ export default defineConfig({
         name: 'Recipe Box',
         short_name: 'Recipe Box',
         description: 'A small kitchen for private recipes',
-        theme_color: '#1a1a1a',
-        background_color: '#1a1a1a',
+        theme_color: '#fdfdfd',
+        background_color: '#fdfdfd',
         display: 'standalone',
         icons: [
           {
