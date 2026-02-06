@@ -24,3 +24,8 @@ ENVIRONMENT = "development"
 MAX_CONNECTIONS_PER_IP = 10
 MAX_MESSAGES_PER_MINUTE = 30
 MAX_MESSAGE_SIZE = 16384
+
+# Production environment configuration
+[env.production]
+[env.production.vars]
+ENVIRONMENT = "production"
