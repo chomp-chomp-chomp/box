@@ -1,7 +1,8 @@
-import { useState, FormEvent } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getRoom } from '../utils/api';
 import { deriveKeyPBKDF2 } from '../utils/crypto';
+import { getRecentRooms, removeRecentRoom, RecentRoom } from '../utils/recentRooms';
 
 const INTRO_TEXT = `This is a small kitchen.
 
@@ -15,6 +16,11 @@ export default function Home() {
   const [passphrase, setPassphrase] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [recentRooms, setRecentRooms] = useState<RecentRoom[]>([]);
+
+  useEffect(() => {
+    setRecentRooms(getRecentRooms());
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -63,6 +69,21 @@ export default function Home() {
     }
   };
 
+  const handleRecentClick = (room: RecentRoom) => {
+    const stored = sessionStorage.getItem(`recipe:${room.roomId}`);
+    if (stored) {
+      navigate(`/room/${room.roomId}`);
+    } else {
+      setRecipeName(room.roomId);
+      setError('');
+    }
+  };
+
+  const handleRemoveRecent = (roomId: string) => {
+    removeRecentRoom(roomId);
+    setRecentRooms(getRecentRooms());
+  };
+
   return (
     <div className="home">
       <div className="home-content">
@@ -104,6 +125,32 @@ export default function Home() {
 
           <p className="home-warning">Lose the passphrase, lose the recipe.</p>
         </form>
+
+        {recentRooms.length > 0 && (
+          <div className="recent-rooms">
+            <h2 className="recent-rooms-title">Recent recipes</h2>
+            <ul className="recent-rooms-list">
+              {recentRooms.map((room) => (
+                <li key={room.roomId} className="recent-room-item">
+                  <button
+                    className="recent-room-link"
+                    onClick={() => handleRecentClick(room)}
+                  >
+                    <span className="recent-room-name">{room.title}</span>
+                    <span className="recent-room-id">{room.roomId}</span>
+                  </button>
+                  <button
+                    className="recent-room-remove"
+                    onClick={() => handleRemoveRecent(room.roomId)}
+                    title="Remove"
+                  >
+                    &times;
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
