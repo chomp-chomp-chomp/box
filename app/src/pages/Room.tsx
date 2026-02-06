@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, FormEvent } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getRoom, getHistory, getWebSocketUrl, RoomInfo, HistoryMessage } from '../utils/api';
+import { saveRecentRoom } from '../utils/recentRooms';
 import {
   deriveKeyPBKDF2,
   encryptPayload,
@@ -70,6 +71,9 @@ export default function Room() {
         // Fetch room metadata
         const roomInfo = await getRoom(roomId);
         setRoom(roomInfo);
+
+        // Track this room for quick switching
+        saveRecentRoom(roomId, roomInfo.title || 'Untitled Recipe');
 
         // Derive encryption key
         const key = await deriveKeyPBKDF2(
@@ -351,6 +355,7 @@ export default function Room() {
       {/* Header */}
       <div className="room-header">
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <Link to="/" className="room-back" title="Switch recipe">&larr;</Link>
           <div>
             <div className="room-title">{room?.title || 'Untitled Recipe'}</div>
             <div className="room-code">{roomId}</div>
