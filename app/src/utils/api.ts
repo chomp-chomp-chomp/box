@@ -17,6 +17,17 @@ export interface HistoryMessage {
   senderName: string | null;
 }
 
+function adminApiError(status: number, fallback: string): Error {
+  if (status === 401) return new Error('Invalid admin token');
+  if (status === 404) return new Error('Recipe not found');
+  if (status === 405) {
+    return new Error(
+      'Admin API endpoint rejected this method (405). Verify VITE_API_BASE_URL points to the Worker/API host, not the Pages site.'
+    );
+  }
+  return new Error(fallback);
+}
+
 // Public endpoints
 export async function getRoom(roomId: string): Promise<RoomInfo> {
   const res = await fetch(`${API_BASE}/api/rooms/${encodeURIComponent(roomId)}`);
@@ -66,8 +77,7 @@ export async function createRoom(
     body: JSON.stringify(options || {}),
   });
   if (!res.ok) {
-    if (res.status === 401) throw new Error('Invalid admin token');
-    throw new Error('Failed to create recipe');
+    throw adminApiError(res.status, 'Failed to create recipe');
   }
   return res.json();
 }
@@ -86,9 +96,7 @@ export async function rotatePassphrase(
     body: JSON.stringify(options || {}),
   });
   if (!res.ok) {
-    if (res.status === 401) throw new Error('Invalid admin token');
-    if (res.status === 404) throw new Error('Recipe not found');
-    throw new Error('Failed to rotate passphrase');
+    throw adminApiError(res.status, 'Failed to rotate passphrase');
   }
   return res.json();
 }
@@ -107,9 +115,7 @@ export async function updateRoom(
     body: JSON.stringify(updates),
   });
   if (!res.ok) {
-    if (res.status === 401) throw new Error('Invalid admin token');
-    if (res.status === 404) throw new Error('Recipe not found');
-    throw new Error('Failed to update recipe');
+    throw adminApiError(res.status, 'Failed to update recipe');
   }
   return res.json();
 }
